@@ -2,10 +2,10 @@ var sql = require("mssql");
 
 export async function connect() {
     var config = {
-        user: 'test123',
-        password: 'test',
-        server: 'localhost',
-        database: 'node_db'
+        user: 'sa',
+        password: '83197',
+        server: 'DESKTOP-B0KSOD0',
+        database: 'EducationHub'
     };
 
     await sql.connect(config, function (err: any) {
