@@ -13,10 +13,10 @@ var sql = require("mssql");
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         var config = {
-            user: 'test123',
-            password: 'test',
-            server: 'localhost',
-            database: 'node_db'
+            user: 'sa',
+            password: '83197',
+            server: 'DESKTOP-B0KSOD0',
+            database: 'EducationHub'
         };
         yield sql.connect(config, function (err) {
             if (err)

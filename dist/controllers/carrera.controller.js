@@ -9,12 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const database_1 = require("../database");
 function getCarrera(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.carreraId;
-        //const conn = await connect();
-        //const carrera = await conn.query('select * from Carreras wjere id = ?', [id]);
-        //return res.json(carrera[0]);
+        const conn = yield database_1.connect();
+        const carrera = yield conn.query('select * from Carreras where id = ?', [id]);
+        return res.json(carrera[0]);
         return res.json(id);
     });
 }
