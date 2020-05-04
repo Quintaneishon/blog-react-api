@@ -7,6 +7,6 @@ export async function getNombresTipo(req: Request, res: Response): Promise<Respo
     res.header('Access-Control-Allow-Headers', "*");
     const conn = await connect();
     var request=new sql.Request();
-    let carrera = await request.query(`select Id_Tipo,Nombre from Carrera;`);
+    let carrera = await request.query(`select Id_Tipo,Nombre,Icono from Carrera;`);
     return res.json(carrera.recordsets);
 };
