@@ -16,14 +16,11 @@ function connect() {
             user: 'sa',
             password: '83197',
             server: 'DESKTOP-B0KSOD0',
+            //server: 'DESKTOP-17HHG00',
             database: 'EducationHub'
         };
-        yield sql.connect(config, function (err) {
-            if (err)
-                console.log(err);
-        });
-        var request = new sql.Request();
-        return request;
+        const conn = yield sql.connect(config);
+        return conn;
     });
 }
 exports.connect = connect;

@@ -4,5 +4,5 @@ const express_1 = require("express");
 const router = express_1.Router();
 const index_controller_1 = require("../controllers/index.controller");
 router.route('/')
-    .get(index_controller_1.indexWelcome);
+    .get(index_controller_1.getNombresTipo);
 exports.default = router;
