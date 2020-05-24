@@ -27,7 +27,7 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	join Temario t on t.Id_temario=m.Id_temario
     where t.Id_carrera = ${id};
     
-	select Id_curso,c.Nombre,Link,Descripcion 
+	select Id_curso,c.Nombre,Link,Descripcion,Costo,c.Imagen
 	from Cursos c
 	join Carrera_Cursos cc on cc.Id_cursos=c.Id_curso
 	join Carrera ca on ca.Id_carrera=cc.Id_carrera
