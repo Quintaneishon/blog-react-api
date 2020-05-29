@@ -21,11 +21,12 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	join Carrera c on c.Id_carrera=ch.Id_carrera
     where c.Id_carrera= ${id};
     
-	Select  m.Id_materia,m.Titulo,m.Descripcion,m.Dificultad,a.Imagen
+	Select  m.Id_materia,m.Titulo,m.Descripcion,m.Dificultad,a.Imagen, a.Id_materia, a.Titulo
 	from Materia m
+	join Carrera_Materia cm on cm.Id_materia=m.Id_materia
+	join Carrera c on c.Id_carrera=cm.Id_carrera
 	join Apuntes a on m.Id_materia=a.Id_materia
-	join Temario t on t.Id_temario=m.Id_temario
-    where t.Id_carrera = ${id};
+    where c.Id_carrera = ${id};
     
 	select Id_curso,c.Nombre,Link,Descripcion,Costo,c.Imagen
 	from Cursos c
