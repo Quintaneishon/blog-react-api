@@ -21,7 +21,7 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	join Carrera c on c.Id_carrera=ch.Id_carrera
     where c.Id_carrera= ${id};
     
-	Select  m.Id_materia,m.Titulo,m.Descripcion,m.Dificultad,a.Imagen, a.Id_materia, a.Titulo
+	Select  m.Id_materia,m.Titulo,m.Dificultad,a.Imagen, a.Id_materia, a.Titulo
 	from Materia m
 	join Carrera_Materia cm on cm.Id_materia=m.Id_materia
 	join Carrera c on c.Id_carrera=cm.Id_carrera
