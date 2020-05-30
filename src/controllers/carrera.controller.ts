@@ -9,11 +9,10 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
     const id = req.params.carreraId;
     const conn = await connect();
     var request=new sql.Request();
-    let carrera = await request.query(`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera,r.Escuela,r.Escuela2,r.Escuela3,r.Escuela4,r.Escuela5,t.Id_temario
-	from Carrera c,Ranking r, Temario t
+    let carrera = await request.query(`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera,r.Escuela,r.Escuela2,r.Escuela3,r.Escuela4,r.Escuela5
+	from Carrera c,Ranking r
 	where c.Id_carrera = ${id}
-	and r.Id_carrera = ${id}
-    and t.Id_carrera= ${id};
+	and r.Id_carrera = ${id};
 
     select h.Id_herramienta,h.Nombre,Link,h.Icono,Descripcion,Pros,Contras,Costo
 	from Herramienta h
