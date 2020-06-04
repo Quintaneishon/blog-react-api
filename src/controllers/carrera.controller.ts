@@ -9,10 +9,9 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
     const id = req.params.carreraId;
     const conn = await connect();
     var request=new sql.Request();
-    let carrera = await request.query(`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera,r.Escuela,r.Escuela2,r.Escuela3,r.Escuela4,r.Escuela5
-	from Carrera c,Ranking r
-	where c.Id_carrera = ${id}
-	and r.Id_carrera = ${id};
+    let carrera = await request.query(`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera
+	from Carrera c
+	where c.Id_carrera = ${id};
 
     select h.Id_herramienta,h.Nombre,Link,h.Icono,Descripcion,Pros,Contras,Costo
 	from Herramienta h
@@ -20,7 +19,7 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	join Carrera c on c.Id_carrera=ch.Id_carrera
     where c.Id_carrera= ${id};
     
-	Select  m.Id_materia,m.Titulo,m.Dificultad,a.Imagen, a.Id_materia, a.Titulo
+	select  m.Id_materia,m.Titulo,m.Dificultad,a.Imagen, a.Id_materia, a.Nombre
 	from Materia m
 	join Carrera_Materia cm on cm.Id_materia=m.Id_materia
 	join Carrera c on c.Id_carrera=cm.Id_carrera
@@ -31,7 +30,12 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	from Cursos c
 	join Carrera_Cursos cc on cc.Id_cursos=c.Id_curso
 	join Carrera ca on ca.Id_carrera=cc.Id_carrera
-	where ca.Id_carrera= ${id};`);
+	where ca.Id_carrera= ${id};
+	
+	select Nombre,Link,Posicion 
+	from Escuela
+	where Id_carrera=0
+	order by 3;`);
     return res.json(carrera.recordsets);
     //return res.json(id);
 } 
