@@ -1,5 +1,6 @@
-import { Request,Response, request } from 'express'
-import {connect} from '../database'
+import { Request,Response, request } from 'express';
+import {connect} from '../database';
+import {Carrera} from '../models/Carrera';
 
 var sql= require('mssql');
 
@@ -9,7 +10,7 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
     const id = req.params.carreraId;
     const conn = await connect();
     var request=new sql.Request();
-    let carrera = await request.query(`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera
+    let peticion = await request.query(`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera
 	from Carrera c
 	where c.Id_carrera = ${id};
 
@@ -36,6 +37,8 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	from Escuela
 	where Id_carrera=0
 	order by 3;`);
-    return res.json(carrera.recordsets);
+	// console.log(peticion.recordsets);
+	const objeto:Carrera = new Carrera(peticion.recordsets);
+    return res.json(objeto);
     //return res.json(id);
 } 
