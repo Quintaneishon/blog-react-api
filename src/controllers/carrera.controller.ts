@@ -19,7 +19,7 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	join Carrera c on c.Id_carrera=ch.Id_carrera
     where c.Id_carrera= ${id};
     
-	Select  m.Id_materia,m.Titulo,m.Dificultad,a.Imagen, a.Id_materia, a.Nombre
+	select  m.Id_materia,m.Titulo,m.Dificultad,a.Imagen, a.Id_materia, a.Nombre
 	from Materia m
 	join Carrera_Materia cm on cm.Id_materia=m.Id_materia
 	join Carrera c on c.Id_carrera=cm.Id_carrera
@@ -32,11 +32,10 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 	join Carrera ca on ca.Id_carrera=cc.Id_carrera
 	where ca.Id_carrera= ${id};
 	
-	select r.Posicion, e.Escuela, e.Link from Carrera c
-	join Ranking r on r.Id_carrera=c.Id_carrera
-	join Escuela e on e.Id_escuela=r.Id_escuela
-	where c.Id_carrera= ${id}
-	order by 1;`);
+	select Nombre,Link,Posicion 
+	from Escuela
+	where Id_carrera=0
+	order by 3;`);
     return res.json(carrera.recordsets);
     //return res.json(id);
 } 
