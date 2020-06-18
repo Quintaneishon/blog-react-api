@@ -25,7 +25,7 @@ export class Carrera {
                 }
             }
             if(esta > -1){
-                this.materias[esta].apuntes.push(new Apunte(data[2][j].Imagen,data[2][j].Nombre));
+                this.materias[esta].apuntes.push(new Apunte(data[2][j].Imagen,data[2][j].Titulo));
             }else{
                 this.materias.push(new Materia(data[2][j]));
                 // materias.push({id:data[j].Id_materia[0],titulo:data[j].Titulo,nombre:[data[j].Nombre],dificultad:data[j].Dificultad,imagen:[data[j].Imagen]});
@@ -82,26 +82,26 @@ class Curso {
 
 class Materia{
     id:number;
-    titulo:string;
+    nombre:string;
     dificultad:number;
     apuntes:Apunte[];
 
     constructor(data:{Id_materia:number[],Titulo:string,Dificultad:number,Imagen:string,Nombre:string}){
         this.id         = data.Id_materia[0];
-        this.titulo     = data.Titulo;
+        this.nombre     = data.Nombre;
         this.dificultad = data.Dificultad;
-        this.apuntes    = [new Apunte(data.Imagen,data.Nombre)];
+        this.apuntes    = [new Apunte(data.Imagen,data.Titulo)];
     }
 
 }
 
 class Apunte {
     imagen:string;
-    nombre:string;
+    titulo:string;
 
-    constructor(imagen:string,nombre:string){
+    constructor(imagen:string,titulo:string){
         this.imagen = imagen;
-        this.nombre = nombre;
+        this.titulo = titulo;
     }
 }
 
