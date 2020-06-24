@@ -54,36 +54,41 @@ export async function getSearch(req: Request, res: Response): Promise<Response> 
     res.header('Access-Control-Allow-Headers', "*");
 	const text:String = req.params.text;
 	const conn = await connect();
-	var request = new sql.Request();
+	// var request = new sql.Request();
+	const ps = new sql.PreparedStatement();
 	try {
-		let peticion = await request.query(
+		ps.input('parametro', sql.NVarChar);
+		const statement = await ps.prepare(
 			`select c.Id_carrera,c.Nombre as nombre_carrera,c.Imagen as imagen_carrera
 			from Carrera c
-			where c.Nombre like '%${text}%';
+			where c.Nombre like @parametro;
 
 			select top 1 h.Nombre,h.Icono,c.Id_carrera
 			from Herramienta h
 			join Carrera_Herramienta ch on ch.Id_herramienta=h.Id_herramienta
 			join Carrera c on c.Id_carrera=ch.Id_carrera
-			where h.Descripcion like '%${text}%' or h.Nombre like '%${text}%';
+			where h.Descripcion like @parametro or h.Nombre like @parametro;
 			
 			select c.Nombre,Icono, ca.Id_carrera
 			from Cursos c
 			join Carrera_Cursos cc on cc.Id_cursos=c.Id_curso
 			join Carrera ca on ca.Id_carrera=cc.Id_carrera
-			where c.Nombre like '%${text}%' or c.Descripcion like '%${text}%';
+			where c.Nombre like @parametro or c.Descripcion like @parametro;
 
 			select  m.Nombre, a.Titulo, c.Id_carrera
 			from Materia m
 			join Carrera_Materia cm on cm.Id_materia=m.Id_materia
 			join Carrera c on c.Id_carrera=cm.Id_carrera
 			join Apuntes a on m.Id_materia=a.Id_materia
-			where a.Titulo like '%${text}%' or m.Nombre like '%${text}%';`
-		)
-		return res.json(new Busquedas(peticion.recordsets));
+			where a.Titulo like @parametro or m.Nombre like @parametro;`
+		);
+		const result = await statement.execute({
+			parametro: `%${text}%`
+		});
+		await statement.unprepare();
+		return res.json(new Busquedas(result.recordsets));
 	} catch (error) {
 		console.log(error);
 		return res.json(null);		
 	}
-	// console.log(peticion.recordsets);
 } 
