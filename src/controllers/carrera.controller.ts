@@ -8,7 +8,8 @@ var sql= require('mssql');
 export async function getCarrera(req: Request, res: Response): Promise<Response> {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Headers', "*");
-    const id = req.params.carreraId;
+	const id = req.params.carreraId;
+	const tipo = req.params.tipo;
     const conn = await connect();
     var request=new sql.Request();
 	try {
@@ -41,12 +42,12 @@ export async function getCarrera(req: Request, res: Response): Promise<Response>
 		where Id_carrera=${id}
 		order by 3;`);
 		const objeto:Carrera = new Carrera(peticion.recordsets);
+		objeto.tipo = tipo;
 		return res.json(objeto);
 	} catch (error) {
 		console.log(error);
 		return res.json(null);		
 	}
-	// console.log(peticion.recordsets);
 } 
 
 export async function getSearch(req: Request, res: Response): Promise<Response> {

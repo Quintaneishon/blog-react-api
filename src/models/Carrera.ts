@@ -6,6 +6,7 @@ export class Carrera {
     cursos: Curso[] = [];
     ranking: Escuela[] = [];
     materias: Materia[]=[]; 
+    tipo: String = '';
 
     constructor(data: any[]) {
         for(let i=0; i < data[1].length ; i++){
