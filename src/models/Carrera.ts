@@ -8,35 +8,47 @@ export class Carrera {
     materias: Materia[]=[]; 
     tipo: String = '';
 
-    constructor(data: any[]) {
-        for(let i=0; i < data[1].length ; i++){
-            this.herramientas.push(new Herramienta(data[1][i]));
-        }
-        for(let i=0; i < data[3].length ; i++){
-            this.cursos.push(new Curso(data[3][i]));
-        }
-        for(let i=0; i < data[4].length ; i++){
-            this.ranking.push(new Escuela(data[4][i]));
-        }
-        for (let j=0; j < data[2].length; j++) {
+    constructor ( data: { [x: string]: any; } ){
+        this.id     = data['Id_carrera'];
+        this.nombre = data['nombre_carrera'];
+        this.imagen = data['imagen_carrera'];
+    }
+
+    set Herramientas( data: [ { [x: string]: any; }] ){
+        data.forEach( (herr) => {
+            const herramienta = new Herramienta(herr);
+            this.herramientas.push(herramienta);
+        })
+    }
+
+    set Materias( data: [ { [x: string]: any; }] ){
+        for (let j=0; j < data.length; j++) {
             let esta = -1;
             for (var i=0; i < this.materias.length; i++) {
-                if (this.materias[i].id === data[2][j].Id_materia[0]) {
+                if (this.materias[i].id === data[j].Id_materia) {
                     esta = i;
                 }
             }
             if(esta > -1){
-                this.materias[esta].apuntes.push(new Apunte(data[2][j].Imagen,data[2][j].Titulo));
+                this.materias[esta].apuntes.push(new Apunte(data[j].Imagen,data[j].Titulo));
             }else{
-                this.materias.push(new Materia(data[2][j]));
-                // materias.push({id:data[j].Id_materia[0],titulo:data[j].Titulo,nombre:[data[j].Nombre],dificultad:data[j].Dificultad,imagen:[data[j].Imagen]});
+                this.materias.push(new Materia(data[j]));
             }
         }
-    
+    }
 
-        this.id = data[0][0].Id_carrera;
-        this.nombre = data[0][0].nombre_carrera;
-        this.imagen = data[0][0].imagen_carrera;
+    set Cursos( data: [ { [x: string]: any; }] ){
+        data.forEach( (cur) => {
+            const curso = new Curso(cur);
+            this.cursos.push(curso);
+        })
+    }
+
+    set Ranking( data: [ { [x: string]: any; }] ){
+        data.forEach( (es) => {
+            const escuela = new Escuela(es);
+            this.ranking.push(escuela);
+        })
     }
 
 }
@@ -87,8 +99,8 @@ class Materia{
     dificultad:number;
     apuntes:Apunte[];
 
-    constructor(data:{Id_materia:number[],Titulo:string,Dificultad:number,Imagen:string,Nombre:string}){
-        this.id         = data.Id_materia[0];
+    constructor(data: { [x: string]: any; }){
+        this.id         = data.Id_materia;
         this.nombre     = data.Nombre;
         this.dificultad = data.Dificultad;
         this.apuntes    = [new Apunte(data.Imagen,data.Titulo)];

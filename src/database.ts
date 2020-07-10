@@ -1,14 +1,15 @@
-var sql = require("mssql");
+import { createPool } from 'mysql2/promise';
 
 export async function connect() {
-    var config = {
-        user: 'sa',
-        password: '83197',
-        server: 'DESKTOP-B0KSOD0',
-        //server: 'DESKTOP-17HHG00',
-        database: 'EducationHub'
-    };
 
-    const conn=await sql.connect(config);
-    return conn;
+    
+    return await createPool({
+        host: 'localhost',
+        user: 'root',
+        password: 'password',
+        database: 'EducationHub',
+        connectionLimit: 10,
+        port: 3307,
+    });
+
 }
